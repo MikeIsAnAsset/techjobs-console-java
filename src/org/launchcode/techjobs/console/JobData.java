@@ -10,6 +10,7 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by LaunchCode
@@ -76,11 +77,65 @@ public class JobData {
 
             String aValue = row.get(column);
 
+            aValue = aValue.toLowerCase();
+            value = value.toLowerCase();
+
             if (aValue.contains(value)) {
                 jobs.add(row);
             }
         }
 
+        return jobs;
+    }
+
+    /*
+
+    Returns reuslts of search the jobs by value,
+    using the search term.
+
+    For example, searching for "Louis" will include results such as
+    *****
+    position type: Data Scientist / Business Intelligence
+    name: Sr. IT Analyst (Data/BI)
+    employer: Bull Moose Industries
+    location: Saint Louis
+    core competency: Statistical Analysis
+    *****
+
+    @param value Value to search for in each field
+    */
+
+    public static ArrayList<HashMap<String, String>> findByValue(String value) {
+
+        // load data, if not already loaded
+        loadData();
+
+        ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
+
+        for (HashMap<String, String> hashMap : allJobs) {
+
+            for (Map.Entry<String, String> kv : hashMap.entrySet()) {
+                String aValue = kv.getValue();
+
+                aValue = aValue.toLowerCase();
+                value = value.toLowerCase();
+
+                if (aValue.contains(value)) {
+                    jobs.add(hashMap);
+                    break;
+
+                }
+
+
+            }
+
+
+
+
+            /*if (hashMap.containsValue(value)){
+                jobs.add(hashMap);
+            }*/
+        }
         return jobs;
     }
 
